@@ -78,6 +78,18 @@ fn layer_code(layer: Layer) -> u32 {
     }
 }
 
+/// Hands a serialized canonical stream to the caller: the exact-length
+/// buffer goes out as an owned boxed slice; [`pith_mp3_free`]
+/// reconstructs it from the same length to release it.
+unsafe fn hand_out(canonical: Vec<u8>, out: *mut *mut u8, out_len: *mut usize) {
+    let len = canonical.len();
+    let ptr = alloc::boxed::Box::into_raw(canonical.into_boxed_slice());
+    unsafe {
+        *out = ptr.cast::<u8>();
+        *out_len = len;
+    }
+}
+
 /// Decodes an MPEG audio stream into the canonical byte stream the
 /// `reference.json` vectors are defined over.
 ///
@@ -106,14 +118,7 @@ pub unsafe extern "C" fn pith_mp3_decode(
     let bytes = unsafe { core::slice::from_raw_parts(data, len) };
     match decode_and_serialize(bytes) {
         Ok(canonical) => {
-            let len = canonical.len();
-            // Hand the exact-length buffer to the caller; `pith_mp3_free`
-            // reconstructs the boxed slice from the same length.
-            let ptr = alloc::boxed::Box::into_raw(canonical.into_boxed_slice());
-            unsafe {
-                *out = ptr.cast::<u8>();
-                *out_len = len;
-            }
+            unsafe { hand_out(canonical, out, out_len) };
             PITH_OK
         }
         Err(status) => status,
