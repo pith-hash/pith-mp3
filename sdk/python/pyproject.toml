@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pith-mp3"
+version = "0.1.0"
+description = "MP3 decoding SDK: layers I/II/III including the bit reservoir via the pith-mp3 Rust cdylib (ctypes, zero-dep)"
+license = "MIT"
+requires-python = ">=3.9"
+keywords = ["mp3", "audio", "decoder", "mpeg", "hashing"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Rust",
+  "Topic :: Multimedia :: Sound/Audio",
+]
+
+[project.urls]
+Repository = "https://github.com/pith-hash/pith-mp3"
+Homepage = "https://github.com/pith-hash/pith-mp3"
+
+[tool.setuptools]
+packages = ["pith_mp3"]
+
+[tool.setuptools.package-data]
+pith_mp3 = ["*.dll", "*.dylib", "*.so"]
