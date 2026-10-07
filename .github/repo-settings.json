@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "tier": 1,
+  "description": "pith foundation: pith-mp3 (zero-dep Rust MP3 decoder, layers I/II/III)",
+  "homepage": "https://github.com/n24q02m/modhash",
+  "topics": [
+    "rust",
+    "mp3",
+    "audio",
+    "decoder",
+    "no-std"
+  ]
+}

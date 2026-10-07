@@ -1,0 +1,30 @@
+[package]
+name = "pith-mp3"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "Apache-2.0"
+repository = "https://github.com/pith-hash/pith-mp3"
+homepage = "https://github.com/n24q02m/modhash"
+description = "MP3 decoding for layers I/II/III including the bit reservoir."
+readme = "README.md"
+categories = ["algorithms", "cryptography"]
+
+[dependencies]
+pith-digest = { git = "https://github.com/pith-hash/pith-digest.git", branch = "main" }
+
+[features]
+# Opt-in fuzz-corpus replay: enables tests/fuzz_corpus.rs, which the CI
+# fuzz job runs via `cargo test --release --locked -p pith-mp3 --features
+# fuzz --test fuzz_corpus`. No dependency changes; the feature only gates
+# the test target.
+fuzz = []
+
+[[bin]]
+name = "gen-reference"
+path = "tools/gen-reference/main.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+
