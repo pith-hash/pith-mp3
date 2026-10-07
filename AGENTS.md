@@ -4,7 +4,7 @@
 
 - Repo: `pith-hash/pith-mp3`
 - Description: pith foundation: pith-mp3 (zero-dep Rust MP3 decoder, layers I/II/III)
-- License: Apache-2.0
+- License: MIT
 
 ## Build & Test
 
