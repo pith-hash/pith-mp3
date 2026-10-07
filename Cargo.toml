@@ -10,10 +10,19 @@ description = "MP3 decoding for layers I/II/III including the bit reservoir."
 readme = "README.md"
 categories = ["algorithms", "cryptography"]
 
+[lib]
+# The cdylib is the binary every language SDK binds through (ctypes,
+# koffi, cgo); the rlib keeps the Rust consumers unchanged.
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 pith-digest = { git = "https://github.com/pith-hash/pith-digest.git", branch = "main" }
 
 [features]
+# Default-on: the cdylib needs std for its panic handler. The library
+# itself stays no_std-compatible (`--no-default-features` still builds).
+default = ["std"]
+std = []
 # Opt-in fuzz-corpus replay: enables tests/fuzz_corpus.rs, which the CI
 # fuzz job runs via `cargo test --release --locked -p pith-mp3 --features
 # fuzz --test fuzz_corpus`. No dependency changes; the feature only gates
@@ -24,7 +33,11 @@ fuzz = []
 name = "gen-reference"
 path = "tools/gen-reference/main.rs"
 
+# `unsafe_code` is denied at the crate root (`#![deny(unsafe_code)]` in
+# src/lib.rs), with the single `#![allow(unsafe_code)]` confined to
+# src/ffi.rs, the C ABI surface. It cannot live here: `[lints]` entries
+# become command-line flags, and command-line lints cannot be
+# re-allowed by inner attributes.
 [lints.rust]
-unsafe_code = "forbid"
 missing_docs = "deny"
 
