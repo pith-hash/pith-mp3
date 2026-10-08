@@ -16,7 +16,7 @@ categories = ["algorithms", "cryptography"]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-pith-digest = { git = "https://github.com/pith-hash/pith-digest.git", branch = "main" }
+pith-digest = { version = "0.1", git = "https://github.com/pith-hash/pith-digest.git", branch = "main" }
 
 [features]
 # Default-on: the cdylib needs std for its panic handler. The library
