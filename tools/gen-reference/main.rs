@@ -1,4 +1,4 @@
-//! Regenerates and verifies `reference.json` — the hex-exact decoded
+//! Regenerates and verifies `reference.json` â€” the hex-exact decoded
 //! PCM vectors for every conformance fixture, shared byte-for-byte across
 //! the pith suite's Python, Node and Go SDKs.
 //!
@@ -52,7 +52,7 @@ fn run(mode: &str, root: &Path) -> Result<(), String> {
     match mode {
         // Regenerate is the default so a bare `cargo run --bin gen-reference`
         // refreshes the file; CI always passes `verify` explicitly.
-        "" | "generate" => {
+        "gen" | "" | "generate" => {
             let doc = generate(&root.join(FIXTURES_DIR))?;
             let path = root.join(REFERENCE_PATH);
             std::fs::write(&path, &doc).map_err(|e| format!("write {}: {e}", path.display()))?;
@@ -182,7 +182,7 @@ fn vector_for(path: &Path, is_last: bool) -> Result<String, String> {
     Ok(out)
 }
 
-/// Interleaved `i32` PCM in little-endian byte order — the canonical byte
+/// Interleaved `i32` PCM in little-endian byte order â€” the canonical byte
 /// string every SDK hashes.
 fn pcm_bytes(samples: &[i32]) -> Vec<u8> {
     let mut out = Vec::with_capacity(samples.len() * 4);
